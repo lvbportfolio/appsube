@@ -2,11 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>app sube</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <meta name="apple-mobile-web-app-title" content="APP SUBE">
+    <title>APP SUBE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,14 +16,22 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        html {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         :root {
             --primary: #0066CC;
             --primary-dark: #004499;
             --primary-light: #3399FF;
             --primary-lighter: #E6F0FF;
             --success: #00AA44;
+            --success-light: #E6F9F0;
             --danger: #DD3333;
+            --danger-light: #FFE6E6;
             --warning: #FF9900;
+            --warning-light: #FFF4E6;
             --bg-primary: #FFFFFF;
             --bg-secondary: #F8FAFB;
             --bg-tertiary: #EFF3F7;
@@ -31,29 +40,52 @@
             --text-tertiary: #8890A1;
             --border: #DDE2E9;
             --border-light: #E8ECEF;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.15);
         }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            letter-spacing: -0.3px;
             overflow: hidden;
+        }
+
+        body.dark-mode {
+            --bg-primary: #121212;
+            --bg-secondary: #1E1E1E;
+            --bg-tertiary: #2A2A2A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B0B0;
+            --text-tertiary: #808080;
+            --border: #333333;
+            --border-light: #404040;
         }
 
         .phone-container {
             width: 100%;
             max-width: 390px;
             height: 844px;
-            margin: 0 auto;
+            margin: 30px auto;
             background: var(--bg-primary);
             border-radius: 50px;
-            box-shadow: 0 20px 60px rgba(0, 102, 204, 0.2);
+            box-shadow: var(--shadow-xl), 0 20px 60px rgba(0, 102, 204, 0.15);
             border: 12px solid #1a1a1a;
             overflow: hidden;
+            position: relative;
             display: flex;
             flex-direction: column;
-            position: relative;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .phone-container:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl), 0 24px 72px rgba(0, 102, 204, 0.2);
         }
 
         .phone-container::before {
@@ -69,40 +101,84 @@
             z-index: 100;
         }
 
-        .app-header {
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-top: 10px;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .app-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .app-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .app-content::-webkit-scrollbar-thumb {
+            background: var(--border-light);
+            border-radius: 3px;
+        }
+
+        /* ==================== HEADER ==================== */
+        .header {
             background: linear-gradient(135deg, var(--primary) 0%, #0052A3 100%);
             color: white;
             padding: 20px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
             position: relative;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
-        .app-header::before {
+        .header::before {
             content: '';
             position: absolute;
             top: -50%;
-            right: -10%;
+            right: -15%;
             width: 350px;
             height: 350px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 50%;
             filter: blur(40px);
         }
 
-        .app-header h1 {
-            font-family: 'Poppins', sans-serif;
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: -1px;
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            filter: blur(30px);
+        }
+
+        .header-content {
             position: relative;
             z-index: 2;
         }
 
-        .app-header button {
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .header-top h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-top .menu-btn {
             width: 40px;
             height: 40px;
             background: rgba(255, 255, 255, 0.2);
@@ -111,41 +187,61 @@
             color: white;
             font-size: 18px;
             cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            z-index: 2;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .app-header button:active {
-            transform: scale(0.92);
+        .header-top .menu-btn:active {
             background: rgba(255, 255, 255, 0.3);
+            transform: scale(0.92);
         }
 
-        .app-content {
-            flex: 1;
-            overflow-y: auto;
-            padding-top: 10px;
-            background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFB 100%);
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .saldo-card {
-            background: linear-gradient(135deg, white 0%, var(--bg-secondary) 100%);
+        /* ==================== SALDO CARD ==================== */
+        .balance-card {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             border: 1px solid var(--border-light);
             border-radius: 20px;
             padding: 24px;
             margin: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            animation: slideDown 0.6s ease-out;
+            box-shadow: var(--shadow);
+            animation: slideDownSmooth 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary-lighter), transparent);
+            border-radius: 50%;
+            opacity: 0.3;
+            pointer-events: none;
         }
 
-        .saldo-label {
+        .balance-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes slideDownSmooth {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .balance-label {
             font-family: 'Poppins', sans-serif;
             font-size: 11px;
             color: var(--text-tertiary);
@@ -155,21 +251,21 @@
             margin-bottom: 10px;
         }
 
-        .saldo-header {
+        .balance-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             gap: 12px;
-            margin-bottom: 16px;
         }
 
-        .saldo-amount {
+        .balance-amount {
             font-family: 'Poppins', sans-serif;
             font-size: 48px;
             font-weight: 800;
             color: var(--primary);
             letter-spacing: -2px;
             line-height: 1;
+            flex: 1;
         }
 
         .alert-toggle {
@@ -179,11 +275,11 @@
             border: 2px solid var(--border-light);
             background: var(--bg-secondary);
             cursor: pointer;
-            font-size: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            font-size: 20px;
             flex-shrink: 0;
         }
 
@@ -206,80 +302,133 @@
             50% { opacity: 0.75; }
         }
 
-        .saldo-status {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--success);
+        .balance-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            margin-top: 12px;
+            border-top: 1px solid var(--border-light);
         }
 
-        .saldo-last {
+        .balance-details {
             font-size: 12px;
             color: var(--text-secondary);
-            border-top: 1px solid var(--border-light);
-            padding-top: 12px;
         }
 
-        .saldo-last strong {
+        .balance-details strong {
             color: var(--text-primary);
             display: block;
             margin-top: 4px;
+            font-weight: 600;
         }
 
-        .acciones {
+        .balance-status {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--success);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ==================== BOTONES ACCION RAPIDA ==================== */
+        .quick-actions {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 12px;
             padding: 0 14px;
             margin-bottom: 14px;
         }
 
-        .accion-btn {
-            background: white;
+        .action-btn {
+            background: var(--bg-primary);
             border: 1px solid var(--border-light);
             border-radius: 16px;
             padding: 18px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.25s;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
             user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
 
-        .accion-btn:active {
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0, 102, 204, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            pointer-events: none;
+        }
+
+        .action-btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .action-btn:active {
             transform: scale(0.96);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow);
             border-color: var(--primary);
         }
 
-        .accion-icon {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
-
-        .accion-label {
-            font-family: 'Poppins', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .recargar-btn {
+        .action-btn.recharge {
             background: linear-gradient(135deg, var(--success) 0%, #00BB55 100%);
             color: white;
+            font-weight: 700;
             border: none;
             grid-column: 1 / -1;
             padding: 22px;
             font-size: 15px;
-            font-weight: 700;
-            box-shadow: 0 4px 16px rgba(0, 170, 68, 0.2);
+            position: relative;
+            overflow: visible;
+            box-shadow: var(--shadow), 0 4px 16px rgba(0, 170, 68, 0.2);
         }
 
-        .recargar-btn:active {
+        .action-btn.recharge:active {
             transform: scale(0.98);
-            box-shadow: 0 6px 20px rgba(0, 170, 68, 0.3);
+            box-shadow: var(--shadow-lg), 0 6px 20px rgba(0, 170, 68, 0.3);
         }
 
-        .seccion-titulo {
+        .action-icon {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .action-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.2px;
+        }
+
+        .action-btn.recharge .action-label {
+            color: white;
+        }
+
+        /* ==================== ULTIMOS VIAJES ==================== */
+        .section-title {
             font-family: 'Poppins', sans-serif;
             font-size: 13px;
             font-weight: 700;
@@ -290,78 +439,92 @@
             margin-top: 10px;
         }
 
-        .viajes-lista {
+        .trip-list {
             padding: 0 14px;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .viaje-item {
-            background: white;
+        .trip-item {
+            background: var(--bg-primary);
             border: 1px solid var(--border-light);
             border-radius: 14px;
             padding: 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            box-shadow: var(--shadow-sm);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.25s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+            user-select: none;
         }
 
-        .viaje-item:active {
+        .trip-item:active {
             transform: translateX(6px);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            box-shadow: var(--shadow);
+            border-color: var(--primary-light);
         }
 
-        .viaje-icon {
+        .trip-icon {
             font-size: 28px;
             margin-right: 14px;
             flex-shrink: 0;
         }
 
-        .viaje-info {
+        .trip-details {
             flex: 1;
         }
 
-        .viaje-nombre {
+        .trip-name {
             font-family: 'Poppins', sans-serif;
             font-size: 14px;
             font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 6px;
+            letter-spacing: -0.2px;
         }
 
-        .viaje-detalles {
+        .trip-info {
             display: flex;
             gap: 14px;
             font-size: 12px;
             color: var(--text-tertiary);
         }
 
-        .viaje-monto {
+        .trip-amount {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
             color: var(--danger);
             font-size: 14px;
+            white-space: nowrap;
+            letter-spacing: -0.2px;
         }
 
-        .stats {
+        /* ==================== ESTADISTICAS ==================== */
+        .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
             padding: 0 14px;
-            margin: 20px 0;
+            margin-bottom: 20px;
         }
 
-        .stat {
-            background: linear-gradient(135deg, white, var(--bg-secondary));
+        .stat-card {
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
             border: 1px solid var(--border-light);
             border-radius: 14px;
             padding: 18px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            box-shadow: var(--shadow-sm);
             text-align: center;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .stat-card:active {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
         .stat-label {
@@ -374,19 +537,22 @@
             margin-bottom: 10px;
         }
 
-        .stat-valor {
+        .stat-value {
             font-family: 'Poppins', sans-serif;
             font-size: 26px;
             font-weight: 800;
             color: var(--primary);
             margin-bottom: 4px;
+            letter-spacing: -0.5px;
         }
 
-        .stat-sub {
+        .stat-subtitle {
             font-size: 11px;
             color: var(--text-secondary);
+            font-weight: 500;
         }
 
+        /* ==================== MODAL RECARGAR ==================== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -397,6 +563,18 @@
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(4px);
             z-index: 1000;
+            animation: fadeInModal 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeInModal {
+            from { 
+                opacity: 0; 
+                backdrop-filter: blur(0px);
+            }
+            to { 
+                opacity: 1;
+                backdrop-filter: blur(4px);
+            }
         }
 
         .modal-overlay.active {
@@ -405,19 +583,40 @@
         }
 
         .modal {
-            background: white;
+            background: var(--bg-primary);
             width: 100%;
             border-radius: 28px 28px 0 0;
             padding: 24px;
-            max-height: 85%;
+            max-height: 90%;
             overflow-y: auto;
-            animation: slideUp 0.4s ease-out;
+            overflow-x: hidden;
+            animation: slideUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.15);
             -webkit-overflow-scrolling: touch;
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+        @keyframes slideUpModal {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .modal::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
         }
 
         .modal-header {
@@ -431,9 +630,10 @@
             font-family: 'Poppins', sans-serif;
             font-size: 22px;
             font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        .cerrar-btn {
+        .close-btn {
             width: 36px;
             height: 36px;
             background: var(--bg-secondary);
@@ -444,22 +644,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.25s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-primary);
+            user-select: none;
         }
 
-        .cerrar-btn:active {
-            transform: scale(0.92);
+        .close-btn:active {
             background: var(--border-light);
+            transform: scale(0.92);
         }
 
-        .montos {
+        .amount-selector {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 12px;
             margin-bottom: 22px;
         }
 
-        .monto-btn {
+        .amount-btn {
             background: var(--bg-secondary);
             border: 2px solid transparent;
             border-radius: 14px;
@@ -469,19 +671,23 @@
             font-weight: 700;
             color: var(--text-primary);
             cursor: pointer;
-            transition: all 0.25s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.3px;
             user-select: none;
         }
 
-        .monto-btn:active {
+        .amount-btn:active {
+            transform: scale(0.97);
+        }
+
+        .amount-btn.selected {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-            transform: scale(0.97);
             box-shadow: 0 4px 16px rgba(0, 102, 204, 0.3);
         }
 
-        .input-monto {
+        .custom-amount {
             width: 100%;
             border: 2px solid var(--border-light);
             border-radius: 12px;
@@ -490,41 +696,47 @@
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 22px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            color: var(--text-primary);
             background: var(--bg-secondary);
-            transition: all 0.25s;
         }
 
-        .input-monto:focus {
+        .custom-amount::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .custom-amount:focus {
             outline: none;
             border-color: var(--primary);
             background: var(--primary-lighter);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
         }
 
-        .metodos-pago {
+        .payment-methods {
             margin-bottom: 22px;
         }
 
-        .metodo {
+        .payment-method {
             background: var(--bg-secondary);
             border: 2px solid transparent;
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
             cursor: pointer;
-            transition: all 0.25s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             gap: 14px;
             user-select: none;
         }
 
-        .metodo:active {
+        .payment-method:active {
             border-color: var(--primary);
             background: var(--primary-lighter);
             transform: translateX(4px);
         }
 
-        .metodo input {
+        .payment-method input[type="radio"] {
             cursor: pointer;
             width: 18px;
             height: 18px;
@@ -532,24 +744,25 @@
             flex-shrink: 0;
         }
 
-        .metodo-info {
+        .payment-info {
             flex: 1;
         }
 
-        .metodo-nombre {
+        .payment-name {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            font-size: 14px;
             color: var(--text-primary);
+            font-size: 14px;
+            letter-spacing: -0.2px;
         }
 
-        .metodo-desc {
+        .payment-desc {
             font-size: 12px;
             color: var(--text-secondary);
             margin-top: 3px;
         }
 
-        .confirmar-btn {
+        .confirm-btn {
             width: 100%;
             background: linear-gradient(135deg, var(--primary) 0%, #0052A3 100%);
             color: white;
@@ -560,26 +773,208 @@
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.25s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             margin-bottom: 12px;
             box-shadow: 0 4px 16px rgba(0, 102, 204, 0.2);
+            letter-spacing: -0.2px;
             user-select: none;
         }
 
-        .confirmar-btn:active {
+        .confirm-btn:active {
             transform: scale(0.98);
             box-shadow: 0 6px 20px rgba(0, 102, 204, 0.3);
         }
 
-        .cancelar-btn {
+        .confirm-btn:last-child {
             background: var(--bg-secondary);
             color: var(--text-primary);
             border: 1px solid var(--border-light);
+            box-shadow: none;
             margin-bottom: 0;
+        }
+
+        .confirm-btn:last-child:active {
+            background: var(--border-light);
             box-shadow: none;
         }
 
-        .notificacion {
+        /* ==================== HISTORIAL MODAL ==================== */
+        .history-modal {
+            max-height: 85%;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filter-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .filter-tabs::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        .filter-tab {
+            background: var(--bg-secondary);
+            border: none;
+            border-radius: 20px;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .filter-tab:active {
+            transform: scale(0.97);
+        }
+
+        .filter-tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.2);
+        }
+
+        .history-item {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .history-item:active {
+            transform: translateX(4px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .history-item.recharge {
+            border-left-color: var(--success);
+        }
+
+        .history-date {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .history-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-left {
+            flex: 1;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .history-icon {
+            font-size: 20px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .history-text {
+            flex: 1;
+        }
+
+        .history-type {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .history-time {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .history-amount {
+            text-align: right;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .history-amount.charge {
+            color: var(--danger);
+        }
+
+        .history-amount.credit {
+            color: var(--success);
+        }
+
+        /* ==================== SETTINGS MODAL ==================== */
+        .settings-item {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-light);
+        }
+
+        .settings-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 28px;
+            background: var(--border);
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--success);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 24px;
+        }
+
+        /* ==================== NOTIFICACION EXITO ==================== */
+        .success-notification {
             position: fixed;
             top: 40px;
             left: 50%;
@@ -590,64 +985,194 @@
             border-radius: 12px;
             font-size: 14px;
             font-weight: 700;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            box-shadow: var(--shadow-lg);
             z-index: 2000;
+            animation: slideDownNotif 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             pointer-events: none;
             max-width: 90%;
             text-align: center;
-            animation: notifDown 0.4s ease-out;
         }
 
-        @keyframes notifDown {
-            from { transform: translateX(-50%) translateY(-100px); opacity: 0; }
-            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        @keyframes slideDownNotif {
+            from {
+                transform: translateX(-50%) translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
         }
 
-        .notificacion.show {
-            animation: notifDown 0.4s ease-out forwards, notifUp 0.4s ease-in 2.6s forwards;
+        .success-notification.show {
+            animation: slideDownNotif 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+                       slideUpNotif 0.4s ease-in 2.6s forwards;
         }
 
-        @keyframes notifUp {
-            from { transform: translateX(-50%) translateY(0); opacity: 1; }
-            to { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+        @keyframes slideUpNotif {
+            from {
+                transform: translateX(-50%) translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(-50%) translateY(-100px);
+                opacity: 0;
+            }
         }
 
-        .fab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--primary) 0%, #0052A3 100%);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 24px;
+
+        /* ==================== ICONOS ==================== */
+        .icon { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; color: inherit; }
+        .icon svg { display: block; }
+        .icon-inline { vertical-align: middle; margin-right: 4px; }
+        .icon-trip { color: var(--primary); }
+        .icon-toast { margin-right: 8px; flex-shrink: 0; }
+        .menu-btn .icon, .close-btn .icon, .alert-toggle .icon { color: inherit; }
+        .header-top .menu-btn { color: white; }
+        .close-btn .icon { color: var(--text-primary); }
+        .payment-name { display: flex; align-items: center; gap: 10px; }
+        .payment-name .icon { color: var(--primary); }
+        .balance-status { display: flex; align-items: center; gap: 4px; }
+        .empty-state { padding: 16px; text-align: center; color: var(--text-tertiary); font-size: 14px; }
+
+        /* ==================== TARJETAS SUBE ==================== */
+        .card-switcher {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
             cursor: pointer;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            transition: all 0.25s;
-            z-index: 999;
+            text-align: left;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            color: inherit;
+        }
+        .card-switcher:active { transform: scale(0.98); border-color: var(--primary-light); }
+        .card-chip {
+            width: 42px;
+            height: 28px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--primary), #3399FF);
+            flex-shrink: 0;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.25);
+        }
+        .card-switcher-text { flex: 1; min-width: 0; }
+        .card-switcher-text span { display: block; }
+        .card-name-line {
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+        .card-number-line { font-size: 12px; color: var(--text-tertiary); margin-top: 2px; }
+        .card-switcher-chevron { color: var(--text-tertiary); }
+
+        .quick-actions-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .card-list-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            margin-bottom: 10px;
+            background: var(--bg-secondary);
+            border: 2px solid transparent;
+            border-radius: 14px;
+            cursor: pointer;
+            text-align: left;
+            font-family: inherit;
+            color: inherit;
+            transition: all 0.2s ease;
+        }
+        .card-list-item.active {
+            border-color: var(--primary);
+            background: var(--primary-lighter);
+        }
+        .card-list-chip {
+            width: 48px;
+            height: 32px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .card-list-info { flex: 1; }
+        .card-list-name {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .card-list-meta { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+        .icon-check { color: var(--primary); }
+
+        .add-card-block {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-light);
+        }
+        .add-card-block.hidden { display: none; }
+        .field-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            display: block;
+        }
+        .text-field {
+            width: 100%;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            margin-bottom: 12px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+        .text-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .success-notification {
             display: flex;
             align-items: center;
             justify-content: center;
-            user-select: none;
+            gap: 8px;
         }
+        .success-notification span { white-space: pre-line; }
+        .toast-error { background: var(--danger); }
+        .toast-warning { background: var(--warning); }
+        .toast-info { background: var(--primary); }
 
-        .fab:active {
-            transform: scale(0.9);
-        }
-
+        /* ==================== RESPONSIVO ==================== */
         @media (max-width: 768px) {
             .phone-container {
                 border-radius: 30px;
                 border: 10px solid #000;
-                max-width: 100%;
+                margin: 10px auto;
                 height: 100vh;
-                margin: 0;
+                max-height: 100vh;
+            }
+
+            .balance-amount {
+                font-size: 40px;
+            }
+
+            .modal {
+                max-height: 80%;
             }
 
             body {
-                margin: 0;
                 padding: 0;
             }
         }
@@ -655,327 +1180,1558 @@
 </head>
 <body>
     <div class="phone-container">
-        <div class="app-header">
-            <h1>app sube</h1>
-            <button>⚙️</button>
-        </div>
+        <div class="app-content" id="appContent">
+            <!-- HEADER -->
+            <div class="header">
+                <div class="header-content">
+                    <div class="header-top">
+                        <h1>APP SUBE</h1>
+                        <button class="menu-btn" onclick="openSettings()" aria-label="Configuración" id="settingsMenuBtn"></button>
+                    </div>
+                </div>
+            </div>
 
-        <div class="app-content">
-            <div class="saldo-card">
-                <div class="saldo-label">Saldo disponible</div>
-                <div class="saldo-header">
+            <!-- SALDO CARD -->
+            <div class="balance-card">
+                <button type="button" class="card-switcher" onclick="openCardsModal()" aria-label="Cambiar tarjeta SUBE">
+                    <div class="card-chip" id="activeCardChip"></div>
+                    <div class="card-switcher-text">
+                        <span class="card-name-line" id="activeCardName">SUBE Personal</span>
+                        <span class="card-number-line" id="activeCardNumber">•••• 4521</span>
+                    </div>
+                    <span class="card-switcher-chevron" id="cardSwitcherChevron"></span>
+                </button>
+                <div class="balance-label">Saldo disponible</div>
+                <div class="balance-header">
                     <div>
-                        <div class="saldo-amount" id="saldo">$1.245,50</div>
-                        <div class="saldo-status">✓ Actualizado</div>
+                        <div class="balance-amount" id="balanceAmount">$1.245,50</div>
+                        <div class="balance-status" id="balanceStatus"></div>
                     </div>
-                    <button class="alert-toggle" id="alertToggle" title="Alertas">🔕</button>
+                    <button class="alert-toggle" id="alertToggle" title="Alertas de saldo bajo" aria-label="Alertas"></button>
                 </div>
-                <div class="saldo-last">
-                    <span>Última carga</span>
-                    <strong>Hoy a las 14:30</strong>
+                <div class="balance-info">
+                    <div class="balance-details">
+                        <span>Última carga</span>
+                        <strong id="lastRechargeText">—</strong>
+                    </div>
                 </div>
             </div>
 
-            <div class="acciones">
-                <div class="accion-btn" onclick="abrirHistorial()">
-                    <div class="accion-icon">📊</div>
-                    <div class="accion-label">Historial</div>
-                </div>
-                <div class="accion-btn" onclick="abrirSoporte()">
-                    <div class="accion-icon">💬</div>
-                    <div class="accion-label">Soporte</div>
-                </div>
-                <button class="accion-btn recargar-btn" onclick="abrirRecargar()">💳 Recargar ahora</button>
-            </div>
-
-            <div class="seccion-titulo">Últimos viajes</div>
-            <div class="viajes-lista">
-                <div class="viaje-item" onclick="verDetalle('Subte Línea B')">
-                    <div class="viaje-icon">🚇</div>
-                    <div class="viaje-info">
-                        <div class="viaje-nombre">Subte Línea B</div>
-                        <div class="viaje-detalles">
-                            <span>Hoy 8:45 AM</span>
-                            <span>Est. Flores</span>
-                        </div>
-                    </div>
-                    <div class="viaje-monto">-$12,50</div>
-                </div>
-
-                <div class="viaje-item" onclick="verDetalle('Colectivo 56')">
-                    <div class="viaje-icon">🚌</div>
-                    <div class="viaje-info">
-                        <div class="viaje-nombre">Colectivo 56</div>
-                        <div class="viaje-detalles">
-                            <span>Hoy 12:15 PM</span>
-                            <span>Av. Rivadavia</span>
-                        </div>
-                    </div>
-                    <div class="viaje-monto">-$15,00</div>
-                </div>
-
-                <div class="viaje-item" onclick="verDetalle('Subte Línea D')">
-                    <div class="viaje-icon">🚇</div>
-                    <div class="viaje-info">
-                        <div class="viaje-nombre">Subte Línea D</div>
-                        <div class="viaje-detalles">
-                            <span>Ayer 6:30 PM</span>
-                            <span>Est. Catalinas</span>
-                        </div>
-                    </div>
-                    <div class="viaje-monto">-$12,50</div>
+            <!-- ACCIONES RAPIDAS -->
+            <div class="quick-actions">
+                <button class="action-btn recharge" onclick="openRechargeModal()">
+                    <span class="action-icon" id="iconRecharge"></span>
+                    <span class="action-label">Recargar ahora</span>
+                </button>
+                <div class="quick-actions-row">
+                    <button type="button" class="action-btn" onclick="openAdjustBalanceModal()">
+                        <span class="action-icon" id="iconAdjust"></span>
+                        <span class="action-label">Ingresar saldo</span>
+                    </button>
+                    <button type="button" class="action-btn" onclick="openHistory()">
+                        <span class="action-icon" id="iconHistory"></span>
+                        <span class="action-label">Historial</span>
+                    </button>
                 </div>
             </div>
 
-            <div class="seccion-titulo">Tu actividad</div>
-            <div class="stats">
-                <div class="stat">
+            <!-- ULTIMOS VIAJES -->
+            <div class="section-title">Últimos movimientos</div>
+            <div class="trip-list" id="tripList">
+                <!-- Generado dinámicamente -->
+            </div>
+
+            <!-- ESTADISTICAS -->
+            <div class="section-title">Tu actividad</div>
+            <div class="stats-grid">
+                <div class="stat-card">
                     <div class="stat-label">Gasto hoy</div>
-                    <div class="stat-valor">$40,00</div>
-                    <div class="stat-sub">2 viajes</div>
+                    <div class="stat-value" id="todaySpent">$0,00</div>
+                    <div class="stat-subtitle" id="todayTripsCount">0 viajes</div>
                 </div>
-                <div class="stat">
+                <div class="stat-card">
                     <div class="stat-label">Gasto semana</div>
-                    <div class="stat-valor">$210,00</div>
-                    <div class="stat-sub">12 viajes</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">Línea favorita</div>
-                    <div class="stat-valor" style="color: var(--success);">Col. 56</div>
-                    <div class="stat-sub">5 viajes</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">Promedio</div>
-                    <div class="stat-valor" style="color: var(--warning);">18 min</div>
-                    <div class="stat-sub">Por viaje</div>
+                    <div class="stat-value" id="weekSpent">$0,00</div>
+                    <div class="stat-subtitle" id="weekTripsCount">0 viajes</div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- MODAL RECARGAR -->
-    <div class="modal-overlay" id="modalRecargar">
+    <div class="modal-overlay" id="rechargeModal">
         <div class="modal">
             <div class="modal-header">
-                <h2>Recargar app sube</h2>
-                <button class="cerrar-btn" onclick="cerrarRecargar()">✕</button>
+                <h2>Recargar APP SUBE</h2>
+                <button class="close-btn" onclick="closeRechargeModal()" aria-label="Cerrar" id="closeRechargeBtn"></button>
             </div>
 
-            <div style="margin-bottom: 20px; background: var(--primary-lighter); padding: 16px; border-radius: 14px;">
-                <div class="saldo-label">Saldo actual</div>
-                <div class="saldo-amount" id="saldoModal" style="margin-top: 8px;">$1.245,50</div>
+            <div>
+                <div style="margin-bottom: 20px; background: var(--primary-lighter); padding: 16px; border-radius: 14px;">
+                    <div class="balance-label">Saldo actual</div>
+                    <div class="balance-amount" id="rechargeModalBalance" style="margin-top: 8px;">$1.245,50</div>
+                </div>
+
+                <div class="balance-label" style="margin-bottom: 12px;">Montos rápidos</div>
+                <div class="amount-selector">
+                    <button class="amount-btn" onclick="selectAmount(100, this)">$100</button>
+                    <button class="amount-btn" onclick="selectAmount(200, this)">$200</button>
+                    <button class="amount-btn" onclick="selectAmount(500, this)">$500</button>
+                </div>
+
+                <input type="number" class="custom-amount" id="customAmount" placeholder="Otro monto ($50-$5000)..." min="50" max="5000" step="50">
+
+                <div class="balance-label" style="margin-bottom: 12px; margin-top: 20px;">Método de pago</div>
+                <div class="payment-methods">
+                    <label class="payment-method">
+                        <input type="radio" name="payment" value="card" checked>
+                        <div class="payment-info">
+                            <div class="payment-name"><span class="pay-icon" data-icon="credit-card"></span> Tarjeta débito/crédito</div>
+                            <div class="payment-desc">Visa, Mastercard, Amex</div>
+                        </div>
+                    </label>
+                    <label class="payment-method">
+                        <input type="radio" name="payment" value="transfer">
+                        <div class="payment-info">
+                            <div class="payment-name"><span class="pay-icon" data-icon="bank"></span> Transferencia bancaria</div>
+                            <div class="payment-desc">CBU / Alias en 2 horas</div>
+                        </div>
+                    </label>
+                    <label class="payment-method">
+                        <input type="radio" name="payment" value="mercadopago">
+                        <div class="payment-info">
+                            <div class="payment-name"><span class="pay-icon" data-icon="smartphone"></span> Mercado Pago</div>
+                            <div class="payment-desc">Billetera virtual</div>
+                        </div>
+                    </label>
+                </div>
+
+                <button class="confirm-btn" onclick="confirmRecharge()">Confirmar recarga</button>
+                <button class="confirm-btn" onclick="closeRechargeModal()">Cancelar</button>
             </div>
-
-            <div class="saldo-label" style="margin-bottom: 12px;">Montos rápidos</div>
-            <div class="montos">
-                <button class="monto-btn" onclick="selMonto(100)">$100</button>
-                <button class="monto-btn" onclick="selMonto(200)">$200</button>
-                <button class="monto-btn" onclick="selMonto(500)">$500</button>
-            </div>
-
-            <input type="number" class="input-monto" id="montoCustom" placeholder="Otro monto ($50-$5.000)..." min="50" max="5000" step="50">
-
-            <div class="saldo-label" style="margin-bottom: 12px; margin-top: 20px;">Método de pago</div>
-            <div class="metodos-pago">
-                <label class="metodo">
-                    <input type="radio" name="pago" value="tarjeta" checked>
-                    <div class="metodo-info">
-                        <div class="metodo-nombre">💳 Tarjeta débito/crédito</div>
-                        <div class="metodo-desc">Visa, Mastercard, Amex</div>
-                    </div>
-                </label>
-                <label class="metodo">
-                    <input type="radio" name="pago" value="transfer">
-                    <div class="metodo-info">
-                        <div class="metodo-nombre">🏦 Transferencia bancaria</div>
-                        <div class="metodo-desc">CBU / Alias en 2 horas</div>
-                    </div>
-                </label>
-                <label class="metodo">
-                    <input type="radio" name="pago" value="mercado">
-                    <div class="metodo-info">
-                        <div class="metodo-nombre">📱 Mercado Pago</div>
-                        <div class="metodo-desc">Billetera virtual</div>
-                    </div>
-                </label>
-            </div>
-
-            <button class="confirmar-btn" onclick="confirmarRecarga()">Confirmar recarga</button>
-            <button class="confirmar-btn cancelar-btn" onclick="cerrarRecargar()">Cancelar</button>
         </div>
     </div>
 
     <!-- MODAL HISTORIAL -->
-    <div class="modal-overlay" id="modalHistorial">
-        <div class="modal">
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal history-modal">
             <div class="modal-header">
                 <h2>Historial completo</h2>
-                <button class="cerrar-btn" onclick="cerrarHistorial()">✕</button>
+                <button class="close-btn" onclick="closeHistoryModal()" aria-label="Cerrar" id="closeHistoryBtn"></button>
             </div>
 
-            <div style="display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto;">
-                <button class="monto-btn" style="flex: 1; padding: 8px; font-size: 12px; margin-bottom: 0; background: var(--primary); color: white;">Todos</button>
-                <button class="monto-btn" style="flex: 1; padding: 8px; font-size: 12px; margin-bottom: 0;" onclick="filtrar('viajes')">Viajes</button>
-                <button class="monto-btn" style="flex: 1; padding: 8px; font-size: 12px; margin-bottom: 0;" onclick="filtrar('recargas')">Recargas</button>
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterHistory('all', this)">Todos</button>
+                <button class="filter-tab" onclick="filterHistory('viajes', this)">Viajes</button>
+                <button class="filter-tab" onclick="filterHistory('recargas', this)">Recargas</button>
             </div>
 
-            <div class="viajes-lista">
-                <div style="border-left: 4px solid var(--success); background: white; border-radius: 12px; padding: 14px; margin-bottom: 10px;">
-                    <div style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Hoy 14:30</div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div class="viaje-nombre">Recarga por tarjeta</div>
-                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 3px;">Débito Santander ****5678</div>
-                        </div>
-                        <div style="font-weight: 700; color: var(--success); font-size: 14px;">+$500</div>
-                    </div>
-                </div>
+            <div id="historyContainer">
+                <!-- Generado dinámicamente -->
+            </div>
+        </div>
+    </div>
 
-                <div style="border-left: 4px solid var(--primary); background: white; border-radius: 12px; padding: 14px; margin-bottom: 10px;">
-                    <div style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Hoy 8:45</div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div class="viaje-nombre">Viaje Subte Línea B</div>
-                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 3px;">Estación Flores - 8:45 AM</div>
-                        </div>
-                        <div style="font-weight: 700; color: var(--danger); font-size: 14px;">-$12,50</div>
-                    </div>
-                </div>
+    <!-- MODAL CONFIGURACION -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Configuración</h2>
+                <button class="close-btn" onclick="closeSettings()" aria-label="Cerrar" id="closeSettingsBtn"></button>
+            </div>
 
-                <div style="border-left: 4px solid var(--primary); background: white; border-radius: 12px; padding: 14px; margin-bottom: 10px;">
-                    <div style="font-size: 11px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; margin-bottom: 8px;">Hoy 12:15</div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div class="viaje-nombre">Viaje Colectivo 56</div>
-                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 3px;">Av. Rivadavia - 12:15 PM</div>
-                        </div>
-                        <div style="font-weight: 700; color: var(--danger); font-size: 14px;">-$15,00</div>
-                    </div>
+            <div>
+                <div class="settings-item">
+                    <span class="settings-label">Modo oscuro</span>
+                    <div class="toggle-switch" id="darkModeToggle" onclick="toggleDarkMode()"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- NOTIFICACION -->
-    <div class="notificacion" id="notif"></div>
 
-    <!-- FAB SOPORTE -->
-    <button class="fab" onclick="abrirSoporte()">💬</button>
+    <!-- MODAL TARJETAS -->
+    <div class="modal-overlay" id="cardsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Mis tarjetas SUBE</h2>
+                <button class="close-btn" onclick="closeCardsModal()" aria-label="Cerrar" id="closeCardsBtn"></button>
+            </div>
+            <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Elegí una tarjeta para ver su saldo e historial.</p>
+            <div id="cardsList"></div>
+            <button type="button" class="confirm-btn" style="margin-top:8px" onclick="openAddCardForm()">
+                <span style="display:inline-flex;align-items:center;justify-content:center;gap:8px" id="addCardBtnLabel"></span>
+            </button>
+            <div class="add-card-block hidden" id="addCardForm">
+                <label class="field-label">Nombre</label>
+                <input class="text-field" id="newCardName" placeholder="Ej: SUBE Mamá" maxlength="32">
+                <label class="field-label">Últimos 4 dígitos (opcional)</label>
+                <input class="text-field" id="newCardNumber" placeholder="1234" maxlength="4" inputmode="numeric">
+                <label class="field-label">Saldo inicial</label>
+                <input class="text-field" id="newCardBalance" type="number" min="0" step="0.01" placeholder="0">
+                <button type="button" class="confirm-btn" onclick="confirmAddCard()">Guardar tarjeta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL AJUSTAR SALDO -->
+    <div class="modal-overlay" id="adjustBalanceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Ingresar / ajustar saldo</h2>
+                <button class="close-btn" onclick="closeAdjustBalanceModal()" aria-label="Cerrar" id="closeAdjustBtn"></button>
+            </div>
+            <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Actualizá el saldo de <strong id="adjustCardName">esta tarjeta</strong> según lo que ves en tu SUBE física o en el validador.</p>
+            <label class="field-label">Saldo actual ($)</label>
+            <input class="text-field" id="adjustBalanceInput" type="number" min="0" max="99999" step="0.01">
+            <label class="field-label">Nota (opcional)</label>
+            <input class="text-field" id="adjustBalanceNote" placeholder="Ej: Leído en la app oficial">
+            <button type="button" class="confirm-btn" onclick="confirmAdjustBalance()">Guardar saldo</button>
+            <button type="button" class="confirm-btn" onclick="closeAdjustBalanceModal()">Cancelar</button>
+        </div>
+    </div>
+
+
+    <!-- NOTIFICACION EXITO -->
+    <div class="success-notification" id="successNotif"></div>
 
     <script>
-        let saldo = 1245.50;
-        let montoSel = 200;
-        let alertasActivas = false;
+// App logic (included in index.html)
+const STORAGE_KEY = "appSube_v2";
 
-        window.addEventListener('load', () => {
-            document.querySelectorAll('.monto-btn')[1].click();
-        });
+const DEFAULT_CARDS = [
+    {
+        id: "card-1",
+        name: "SUBE Personal",
+        number: "4521",
+        color: "#0066CC",
+        balance: 1245.5,
+        alertsEnabled: false,
+        transactions: [
+            { id: 1, type: "recharge", amount: 500, date: "2026-06-02 14:30", method: "Tarjeta" },
+            { id: 2, type: "trip", transport: "Subte Línea B", amount: 12.5, date: "2026-06-02 08:45", location: "Estación Flores" },
+            { id: 3, type: "trip", transport: "Colectivo 56", amount: 15, date: "2026-06-02 12:15", location: "Av. Rivadavia" },
+            { id: 4, type: "trip", transport: "Subte Línea D", amount: 12.5, date: "2026-06-01 18:30", location: "Estación Catalinas" },
+            { id: 5, type: "recharge", amount: 400, date: "2026-06-01 10:00", method: "Mercado Pago" },
+        ],
+    },
+    {
+        id: "card-2",
+        name: "SUBE Trabajo",
+        number: "8832",
+        color: "#00AA44",
+        balance: 380.25,
+        alertsEnabled: true,
+        transactions: [
+            { id: 1, type: "trip", transport: "Subte Línea D", amount: 12.5, date: "2026-06-02 07:20", location: "Catalinas" },
+            { id: 2, type: "trip", transport: "Colectivo 152", amount: 15, date: "2026-06-02 18:10", location: "Microcentro" },
+            { id: 3, type: "recharge", amount: 300, date: "2026-05-28 09:00", method: "Transferencia" },
+        ],
+    },
+    {
+        id: "card-3",
+        name: "SUBE Estudiante",
+        number: "1190",
+        color: "#FF9900",
+        balance: 95,
+        alertsEnabled: false,
+        transactions: [
+            { id: 1, type: "trip", transport: "Colectivo 39", amount: 15, date: "2026-06-02 16:40", location: "Flores" },
+            { id: 2, type: "adjust", amount: 95, date: "2026-06-01 12:00", note: "Saldo ingresado manualmente" },
+        ],
+    },
+];
 
-        document.getElementById('alertToggle').addEventListener('click', () => {
-            alertasActivas = !alertasActivas;
-            const btn = document.getElementById('alertToggle');
-            
-            if (alertasActivas) {
-                btn.classList.add('active');
-                btn.textContent = '🔔';
-                mostrarNotif('🔔 Alertas activadas');
-            } else {
-                btn.classList.remove('active');
-                btn.textContent = '🔕';
-                mostrarNotif('🔕 Alertas desactivadas');
-            }
-        });
+let appState = {
+    activeCardId: "card-1",
+    cards: [],
+    selectedAmount: 200,
+    darkMode: false,
+    currentFilter: "all",
+};
 
-        function abrirRecargar() {
-            document.getElementById('modalRecargar').classList.add('active');
-            document.getElementById('saldoModal').textContent = '$' + saldo.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-        }
+// ==================== ICONOS SVG ====================
+const ICONS = {
+    settings: '<circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>',
+    bell: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+    "bell-off": '<path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M18.63 13A17.89 17.89 0 0 1 18 8"/><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"/><path d="M18 8a6 6 0 0 0-9.33-5"/><line x1="1" y1="1" x2="23" y2="23"/>',
+    "credit-card": '<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
+    "bar-chart": '<line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>',
+    x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+    bus: '<path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s-1-2-3-2-3 2-3 2H6s-1-2-3-2-3 2H2"/><path d="M8 18v2"/><path d="M16 18v2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',
+    train: '<rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/><path d="M8 15h0"/><path d="M16 15h0"/>',
+    subway: '<path d="M4 15h16"/><path d="M4 15l3-9h10l3 9"/><path d="m9 15 1.5 4"/><path d="m15 15-1.5 4"/><circle cx="8" cy="19" r="1"/><circle cx="16" cy="19" r="1"/>',
+    bank: '<line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',
+    smartphone: '<rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>',
+    check: '<polyline points="20 6 9 17 4 12"/>',
+    "check-circle": '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+    "x-circle": '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>',
+    "alert-triangle": '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+    moon: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
+    sun: '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',
+    "map-pin": '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+    plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+    wallet: '<path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>',
+    "pen-line": '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+    "chevron-down": '<polyline points="6 9 12 15 18 9"/>',
+    layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+    "sliders": '<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/>',
+};
 
-        function cerrarRecargar() {
-            document.getElementById('modalRecargar').classList.remove('active');
-        }
+function icon(name, size = 20, className = "icon") {
+    const body = ICONS[name];
+    if (!body) return "";
+    return `<span class="${className}" style="width:${size}px;height:${size}px" aria-hidden="true"><svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg></span>`;
+}
 
-        function selMonto(monto) {
-            montoSel = monto;
-            document.getElementById('montoCustom').value = '';
-            document.querySelectorAll('.monto-btn').forEach(b => {
-                b.style.background = 'var(--bg-secondary)';
-                b.style.color = 'var(--text-primary)';
-                b.style.borderColor = 'transparent';
-            });
-            event.target.style.background = 'var(--primary)';
-            event.target.style.color = 'white';
-            event.target.style.borderColor = 'var(--primary)';
-        }
+function getTransportIconName(transport) {
+    if (!transport) return "bus";
+    const t = transport.toLowerCase();
+    if (t.includes("colectivo") || t.includes("ómnibus") || t.includes("omnibus")) return "bus";
+    if (t.includes("subte")) return "subway";
+    if (t.includes("tren")) return "train";
+    return "bus";
+}
 
-        function confirmarRecarga() {
-            const custom = parseInt(document.getElementById('montoCustom').value);
-            const monto = custom || montoSel;
+function getActiveCard() {
+    return appState.cards.find((c) => c.id === appState.activeCardId) || appState.cards[0];
+}
 
-            if (isNaN(monto) || monto < 50 || monto > 5000) {
-                mostrarNotif('❌ Monto debe estar entre $50 y $5.000');
+function persistState() {
+    try {
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({
+                activeCardId: appState.activeCardId,
+                cards: appState.cards,
+                darkMode: appState.darkMode,
+            })
+        );
+    } catch (e) {
+        console.warn("No se pudo guardar", e);
+    }
+}
+
+function loadState() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+            const saved = JSON.parse(raw);
+            if (saved.cards?.length) {
+                appState.cards = saved.cards;
+                appState.activeCardId = saved.activeCardId || saved.cards[0].id;
+                appState.darkMode = !!saved.darkMode;
                 return;
             }
-
-            const btn = event.target;
-            btn.textContent = 'Procesando...';
-            btn.disabled = true;
-
-            setTimeout(() => {
-                saldo += monto;
-                document.getElementById('saldo').textContent = '$' + saldo.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-                
-                mostrarNotif(`✅ Recarga de $${monto} exitosa\nNuevo saldo: $${saldo.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`);
-                
-                btn.textContent = 'Confirmar recarga';
-                btn.disabled = false;
-                cerrarRecargar();
-                
-                if (alertasActivas && saldo < 100) {
-                    setTimeout(() => mostrarNotif('⚠️ Tu saldo es menor a $100'), 500);
-                }
-            }, 1200);
         }
-
-        function abrirHistorial() {
-            document.getElementById('modalHistorial').classList.add('active');
+        if (localStorage.getItem("darkMode") === "true") {
+            appState.darkMode = true;
         }
+    } catch (e) {
+        console.warn("No se pudo cargar", e);
+    }
+    appState.cards = JSON.parse(JSON.stringify(DEFAULT_CARDS));
+    appState.activeCardId = "card-1";
+}
 
-        function cerrarHistorial() {
-            document.getElementById('modalHistorial').classList.remove('active');
+function parseTransactionDate(dateStr) {
+    const isoMatch = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})(?:\s+(\d{1,2}):(\d{2}))?/);
+    if (isoMatch) {
+        const [, y, m, d, h = "0", min = "0"] = isoMatch;
+        return new Date(Number(y), Number(m) - 1, Number(d), Number(h), Number(min));
+    }
+    const parsed = new Date(dateStr);
+    return Number.isNaN(parsed.getTime()) ? new Date() : parsed;
+}
+
+function isSameCalendarDay(a, b) {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+
+function isToday(dateStr) {
+    return isSameCalendarDay(parseTransactionDate(dateStr), new Date());
+}
+
+function isWithinDays(dateStr, days) {
+    const d = parseTransactionDate(dateStr);
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - days + 1);
+    return d >= start && d <= now;
+}
+
+function formatTransactionDate(date) {
+    const d = date instanceof Date ? date : parseTransactionDate(date);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const h = String(d.getHours()).padStart(2, "0");
+    const min = String(d.getMinutes()).padStart(2, "0");
+    return `${y}-${m}-${day} ${h}:${min}`;
+}
+
+function formatMoney(amount) {
+    return "$" + amount.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function maskCardNumber(num) {
+    const s = String(num).replace(/\D/g, "").slice(-4);
+    return "•••• " + (s || "0000");
+}
+
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function escapeJsString(str) {
+    return String(str).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+}
+
+function nextTxId(card) {
+    const max = card.transactions.reduce((m, t) => Math.max(m, t.id || 0), 0);
+    return max + 1;
+}
+
+function getLastRecharge(card) {
+    const recharges = card.transactions.filter((t) => t.type === "recharge" || t.type === "adjust");
+    if (!recharges.length) return null;
+    return recharges.sort((a, b) => parseTransactionDate(b.date) - parseTransactionDate(a.date))[0];
+}
+
+// ==================== INICIALIZACION ====================
+window.addEventListener("load", () => initApp());
+
+function initApp() {
+    loadState();
+    setupAlertToggle();
+    renderCardSwitcher();
+    refreshUI();
+    selectAmount(200, document.querySelectorAll(".amount-btn")[1]);
+    loadDarkMode();
+    document.getElementById("customAmount")?.addEventListener("input", () => {
+        document.querySelectorAll(".amount-btn").forEach((b) => b.classList.remove("selected"));
+    });
+}
+
+function refreshUI() {
+    updateBalance();
+    renderTrips();
+    renderHistory();
+    updateStats();
+    renderCardSwitcher();
+    updateAlertToggle();
+    persistState();
+}
+
+function renderCardSwitcher() {
+    const card = getActiveCard();
+    if (!card) return;
+    const nameEl = document.getElementById("activeCardName");
+    const numEl = document.getElementById("activeCardNumber");
+    const chip = document.getElementById("activeCardChip");
+    if (nameEl) nameEl.textContent = card.name;
+    if (numEl) numEl.textContent = maskCardNumber(card.number);
+    if (chip) chip.style.background = `linear-gradient(135deg, ${card.color}, ${card.color}99)`;
+}
+
+function setupAlertToggle() {
+    const toggle = document.getElementById("alertToggle");
+    if (!toggle || toggle.dataset.bound) return;
+    toggle.dataset.bound = "1";
+    toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const card = getActiveCard();
+        card.alertsEnabled = !card.alertsEnabled;
+        updateAlertToggle();
+        showToast(card.alertsEnabled ? "Alertas activadas" : "Alertas desactivadas", "success", card.alertsEnabled ? "bell" : "bell-off");
+        persistState();
+    });
+}
+
+function updateAlertToggle() {
+    const toggle = document.getElementById("alertToggle");
+    const card = getActiveCard();
+    if (!toggle || !card) return;
+    toggle.classList.toggle("active", card.alertsEnabled);
+    toggle.innerHTML = icon(card.alertsEnabled ? "bell" : "bell-off", 22);
+    toggle.setAttribute("aria-label", card.alertsEnabled ? "Desactivar alertas" : "Activar alertas");
+}
+
+function updateBalance() {
+    const card = getActiveCard();
+    if (!card) return;
+    const formatted = formatMoney(card.balance);
+    document.getElementById("balanceAmount").textContent = formatted;
+    const rechargeEl = document.getElementById("rechargeModalBalance");
+    if (rechargeEl) rechargeEl.textContent = formatted;
+
+    const last = getLastRecharge(card);
+    const lastEl = document.getElementById("lastRechargeText");
+    if (lastEl) {
+        if (!last) {
+            lastEl.textContent = "Sin cargas registradas";
+        } else {
+            const d = parseTransactionDate(last.date);
+            const label = isToday(last.date) ? "Hoy" : d.toLocaleDateString("es-AR", { day: "numeric", month: "short" });
+            const time = d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+            lastEl.textContent = `${label} a las ${time}`;
         }
+    }
 
-        function filtrar(tipo) {
-            const msgs = {
-                'viajes': '🚇 Mostrando solo viajes',
-                'recargas': '💳 Mostrando solo recargas'
-            };
-            mostrarNotif(msgs[tipo] || 'Filtro aplicado');
-        }
+    const statusEl = document.getElementById("balanceStatus");
+    if (statusEl) {
+        statusEl.innerHTML = `${icon("check", 14, "icon icon-inline")} Actualizado`;
+    }
 
-        function abrirSoporte() {
-            mostrarNotif('💬 Chat de soporte\nTiempo promedio: <5 minutos');
-        }
+    if (card.balance < 100 && card.alertsEnabled) {
+        setTimeout(() => showToast("Tu saldo es menor a $100", "warning", "alert-triangle"), 500);
+    }
+}
 
-        function verDetalle(viaje) {
-            mostrarNotif(`📍 ${viaje}`);
-        }
+function updateStats() {
+    const card = getActiveCard();
+    if (!card) return;
+    const trips = card.transactions.filter((t) => t.type === "trip");
+    const todayTrips = trips.filter((t) => isToday(t.date));
+    const weekTrips = trips.filter((t) => isWithinDays(t.date, 7));
+    const todayTotal = todayTrips.reduce((s, t) => s + t.amount, 0);
+    const weekTotal = weekTrips.reduce((s, t) => s + t.amount, 0);
 
-        function mostrarNotif(msg) {
-            const notif = document.getElementById('notif');
-            notif.textContent = msg;
-            notif.classList.remove('show');
-            void notif.offsetWidth;
-            notif.classList.add('show');
-            setTimeout(() => notif.classList.remove('show'), 3000);
-        }
+    document.getElementById("todaySpent").textContent = formatMoney(todayTotal);
+    const countEl = document.getElementById("todayTripsCount");
+    if (countEl) countEl.textContent = todayTrips.length === 1 ? "1 viaje" : `${todayTrips.length} viajes`;
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                cerrarRecargar();
-                cerrarHistorial();
-            }
+    const weekVal = document.getElementById("weekSpent");
+    const weekSub = document.getElementById("weekTripsCount");
+    if (weekVal) weekVal.textContent = formatMoney(weekTotal);
+    if (weekSub) weekSub.textContent = weekTrips.length === 1 ? "1 viaje" : `${weekTrips.length} viajes`;
+}
+
+function renderTrips() {
+    const tripList = document.getElementById("tripList");
+    const card = getActiveCard();
+    const todayTrips = card.transactions
+        .filter((t) => t.type === "trip" && isToday(t.date))
+        .sort((a, b) => parseTransactionDate(b.date) - parseTransactionDate(a.date));
+
+    if (todayTrips.length === 0) {
+        tripList.innerHTML = '<p class="empty-state">No hay viajes hoy en esta tarjeta</p>';
+    } else {
+        tripList.innerHTML = todayTrips
+            .map(
+                (trip) => `
+            <div class="trip-item" onclick="showTripDetail('${escapeJsString(trip.transport)}')">
+                <div class="trip-icon">${icon(getTransportIconName(trip.transport), 26, "icon icon-trip")}</div>
+                <div class="trip-details">
+                    <div class="trip-name">${escapeHtml(trip.transport)}</div>
+                    <div class="trip-info">
+                        <span>${parseTransactionDate(trip.date).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}</span>
+                        <span>${escapeHtml(trip.location)}</span>
+                    </div>
+                </div>
+                <div class="trip-amount">-${formatMoney(trip.amount)}</div>
+            </div>`
+            )
+            .join("");
+    }
+}
+
+function openRechargeModal() {
+    document.getElementById("rechargeModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+    updateBalance();
+}
+
+function closeRechargeModal() {
+    document.getElementById("rechargeModal").classList.remove("active");
+    document.body.style.overflow = "auto";
+}
+
+function selectAmount(amount, btn) {
+    appState.selectedAmount = amount;
+    document.getElementById("customAmount").value = "";
+    document.querySelectorAll(".amount-btn").forEach((b) => b.classList.remove("selected"));
+    if (btn) btn.classList.add("selected");
+}
+
+function confirmRecharge() {
+    const customAmount = parseFloat(document.getElementById("customAmount").value);
+    const amount = customAmount || appState.selectedAmount;
+    const card = getActiveCard();
+
+    if (isNaN(amount) || amount < 50 || amount > 5000) {
+        showToast("Monto debe estar entre $50 y $5.000", "error", "x-circle");
+        return;
+    }
+
+    const btn = event.target;
+    const btnText = btn.textContent;
+    btn.textContent = "Procesando...";
+    btn.disabled = true;
+
+    setTimeout(() => {
+        card.balance += amount;
+        const method =
+            document.querySelector('input[name="payment"]:checked')?.value === "transfer"
+                ? "Transferencia"
+                : document.querySelector('input[name="payment"]:checked')?.value === "mercadopago"
+                  ? "Mercado Pago"
+                  : "Tarjeta";
+        card.transactions.unshift({
+            id: nextTxId(card),
+            type: "recharge",
+            amount,
+            date: formatTransactionDate(new Date()),
+            method,
         });
+        refreshUI();
+        showToast(`Recarga de ${formatMoney(amount)} exitosa. Nuevo saldo: ${formatMoney(card.balance)}`, "success", "check-circle");
+        btn.textContent = btnText;
+        btn.disabled = false;
+        closeRechargeModal();
+    }, 1200);
+}
+
+function openAdjustBalanceModal() {
+    const card = getActiveCard();
+    document.getElementById("adjustBalanceInput").value = card.balance;
+    document.getElementById("adjustBalanceNote").value = "";
+    document.getElementById("adjustBalanceModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function closeAdjustBalanceModal() {
+    document.getElementById("adjustBalanceModal").classList.remove("active");
+    document.body.style.overflow = "auto";
+}
+
+function confirmAdjustBalance() {
+    const card = getActiveCard();
+    const newBalance = parseFloat(document.getElementById("adjustBalanceInput").value);
+    const note = document.getElementById("adjustBalanceNote").value.trim() || "Ajuste manual de saldo";
+
+    if (isNaN(newBalance) || newBalance < 0 || newBalance > 99999) {
+        showToast("Ingresá un saldo válido (0 - 99.999)", "error", "x-circle");
+        return;
+    }
+
+    const diff = newBalance - card.balance;
+    card.balance = newBalance;
+    card.transactions.unshift({
+        id: nextTxId(card),
+        type: "adjust",
+        amount: Math.abs(diff),
+        date: formatTransactionDate(new Date()),
+        note,
+        direction: diff >= 0 ? "in" : "out",
+    });
+    refreshUI();
+    closeAdjustBalanceModal();
+    showToast(`Saldo actualizado a ${formatMoney(newBalance)}`, "success", "wallet");
+}
+
+function openHistory() {
+    document.getElementById("historyModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+    renderHistory();
+}
+
+function closeHistoryModal() {
+    document.getElementById("historyModal").classList.remove("active");
+    document.body.style.overflow = "auto";
+}
+
+function renderHistory() {
+    const container = document.getElementById("historyContainer");
+    const card = getActiveCard();
+    let filtered = card.transactions;
+
+    if (appState.currentFilter === "viajes") filtered = filtered.filter((t) => t.type === "trip");
+    else if (appState.currentFilter === "recargas") filtered = filtered.filter((t) => t.type === "recharge" || t.type === "adjust");
+
+    if (!filtered.length) {
+        container.innerHTML = '<p class="empty-state">Sin movimientos</p>';
+        return;
+    }
+
+    container.innerHTML = filtered
+        .map((trans) => {
+            const isRecharge = trans.type === "recharge";
+            const isAdjust = trans.type === "adjust";
+            let iconName = "credit-card";
+            let title = "";
+            let subtitle = "";
+            let amountClass = "charge";
+            let amountText = "";
+
+            if (isRecharge) {
+                iconName = "credit-card";
+                title = `Recarga · ${trans.method}`;
+                subtitle = trans.method;
+                amountClass = "credit";
+                amountText = `+${formatMoney(trans.amount)}`;
+            } else if (isAdjust) {
+                iconName = "pen-line";
+                title = trans.direction === "out" ? "Ajuste de saldo" : "Saldo ingresado";
+                subtitle = trans.note || "Ajuste manual";
+                amountClass = trans.direction === "out" ? "charge" : "credit";
+                amountText = trans.direction === "out" ? `-${formatMoney(trans.amount)}` : `+${formatMoney(trans.amount)}`;
+            } else {
+                iconName = getTransportIconName(trans.transport);
+                title = trans.transport;
+                subtitle = trans.location;
+                amountText = `-${formatMoney(trans.amount)}`;
+            }
+
+            return `
+                <div class="history-item ${isRecharge || (isAdjust && trans.direction !== "out") ? "recharge" : ""}">
+                    <div class="history-date">${escapeHtml(trans.date)}</div>
+                    <div class="history-details">
+                        <div class="history-left">
+                            <div class="history-icon">${icon(iconName, 20, "icon")}</div>
+                            <div class="history-text">
+                                <div class="history-type">${escapeHtml(title)}</div>
+                                <div class="history-time">${escapeHtml(subtitle)}</div>
+                            </div>
+                        </div>
+                        <div class="history-amount ${amountClass}">${amountText}</div>
+                    </div>
+                </div>`;
+        })
+        .join("");
+}
+
+function filterHistory(type, tabEl) {
+    appState.currentFilter = type;
+    document.querySelectorAll(".filter-tab").forEach((tab) => tab.classList.remove("active"));
+    if (tabEl) tabEl.classList.add("active");
+    renderHistory();
+}
+
+function openCardsModal() {
+    renderCardsList();
+    document.getElementById("cardsModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function closeCardsModal() {
+    document.getElementById("cardsModal").classList.remove("active");
+    document.body.style.overflow = "auto";
+}
+
+function renderCardsList() {
+    const list = document.getElementById("cardsList");
+    list.innerHTML = appState.cards
+        .map((c) => {
+            const active = c.id === appState.activeCardId;
+            return `
+            <button type="button" class="card-list-item ${active ? "active" : ""}" onclick="switchCard('${c.id}')">
+                <div class="card-list-chip" style="background:linear-gradient(135deg,${c.color},${c.color}99)"></div>
+                <div class="card-list-info">
+                    <div class="card-list-name">${escapeHtml(c.name)}</div>
+                    <div class="card-list-meta">${maskCardNumber(c.number)} · ${formatMoney(c.balance)}</div>
+                </div>
+                ${active ? icon("check", 20, "icon icon-check") : ""}
+            </button>`;
+        })
+        .join("");
+}
+
+function switchCard(cardId) {
+    if (!appState.cards.some((c) => c.id === cardId)) return;
+    appState.activeCardId = cardId;
+    appState.currentFilter = "all";
+    document.querySelectorAll(".filter-tab").forEach((tab, i) => tab.classList.toggle("active", i === 0));
+    refreshUI();
+    closeCardsModal();
+    const card = getActiveCard();
+    showToast(`Tarjeta: ${card.name}`, "info", "layers");
+}
+
+function openAddCardForm() {
+    document.getElementById("newCardName").value = "";
+    document.getElementById("newCardNumber").value = "";
+    document.getElementById("newCardBalance").value = "0";
+    document.getElementById("addCardForm").classList.remove("hidden");
+}
+
+function confirmAddCard() {
+    const name = document.getElementById("newCardName").value.trim() || "Nueva SUBE";
+    const number = document.getElementById("newCardNumber").value.trim() || String(Math.floor(1000 + Math.random() * 9000));
+    const balance = parseFloat(document.getElementById("newCardBalance").value) || 0;
+    const colors = ["#0066CC", "#00AA44", "#FF9900", "#8B5CF6", "#DD3333"];
+    const id = "card-" + Date.now();
+    const card = {
+        id,
+        name,
+        number,
+        color: colors[appState.cards.length % colors.length],
+        balance,
+        alertsEnabled: false,
+        transactions: balance > 0 ? [{ id: 1, type: "adjust", amount: balance, date: formatTransactionDate(new Date()), note: "Saldo inicial", direction: "in" }] : [],
+    };
+    appState.cards.push(card);
+    appState.activeCardId = id;
+    document.getElementById("addCardForm").classList.add("hidden");
+    refreshUI();
+    renderCardsList();
+    showToast(`Tarjeta "${name}" agregada`, "success", "plus");
+    persistState();
+}
+
+function openSettings() {
+    document.getElementById("settingsModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function closeSettings() {
+    document.getElementById("settingsModal").classList.remove("active");
+    document.body.style.overflow = "auto";
+}
+
+function toggleDarkMode() {
+    appState.darkMode = !appState.darkMode;
+    document.body.classList.toggle("dark-mode", appState.darkMode);
+    document.getElementById("darkModeToggle").classList.toggle("active", appState.darkMode);
+    persistState();
+    showToast(appState.darkMode ? "Modo oscuro activado" : "Modo claro activado", "success", appState.darkMode ? "moon" : "sun");
+}
+
+function loadDarkMode() {
+    if (appState.darkMode) {
+        document.body.classList.add("dark-mode");
+        document.getElementById("darkModeToggle")?.classList.add("active");
+    }
+}
+
+function showToast(message, variant = "success", iconName = "check-circle") {
+    const notif = document.getElementById("successNotif");
+    notif.className = "success-notification show toast-" + variant;
+    notif.innerHTML = `${icon(iconName, 18, "icon icon-toast")}<span>${escapeHtml(message)}</span>`;
+    void notif.offsetWidth;
+    clearTimeout(notif._timer);
+    notif._timer = setTimeout(() => notif.classList.remove("show"), 3200);
+}
+
+function showTripDetail(trip) {
+    showToast(trip, "info", "map-pin");
+}
+
+function closeAllModals() {
+    closeRechargeModal();
+    closeHistoryModal();
+    closeSettings();
+    closeCardsModal();
+    closeAdjustBalanceModal();
+}
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAllModals();
+});
+
+["rechargeModal", "historyModal", "settingsModal", "cardsModal", "adjustBalanceModal"].forEach((id) => {
+    document.getElementById(id)?.addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) {
+            if (id === "rechargeModal") closeRechargeModal();
+            else if (id === "historyModal") closeHistoryModal();
+            else if (id === "settingsModal") closeSettings();
+            else if (id === "cardsModal") closeCardsModal();
+            else closeAdjustBalanceModal();
+        }
+    });
+});
+
+        function injectStaticIcons() {
+            const set = (id, name, size) => { const el = document.getElementById(id); if (el) el.innerHTML = icon(name, size); };
+            set('settingsMenuBtn', 'settings', 20);
+            set('closeRechargeBtn', 'x', 18);
+            set('closeHistoryBtn', 'x', 18);
+            set('closeSettingsBtn', 'x', 18);
+            set('closeCardsBtn', 'x', 18);
+            set('closeAdjustBtn', 'x', 18);
+            set('iconRecharge', 'credit-card', 22);
+            set('iconAdjust', 'wallet', 22);
+            set('iconHistory', 'bar-chart', 22);
+            set('cardSwitcherChevron', 'chevron-down', 20);
+            const addLbl = document.getElementById('addCardBtnLabel');
+            if (addLbl) addLbl.innerHTML = icon('plus', 18) + ' Agregar tarjeta';
+            document.querySelectorAll('.pay-icon').forEach(el => {
+                el.innerHTML = icon(el.dataset.icon, 20);
+            });
+        }
+        const _initApp = initApp;
+        initApp = function() {
+            _initApp();
+            injectStaticIcons();
+            const card = getActiveCard();
+            const adjName = document.getElementById('adjustCardName');
+            if (adjName && card) adjName.textContent = card.name;
+        };
+        const _openAdjust = openAdjustBalanceModal;
+        openAdjustBalanceModal = function() {
+            const card = getActiveCard();
+            const adjName = document.getElementById('adjustCardName');
+            if (adjName && card) adjName.textContent = card.name;
+            _openAdjust();
+        };
+
     </script>
+
 </body>
 </html>
+
+
+// App logic (included in index.html)
+const STORAGE_KEY = "appSube_v2";
+
+const DEFAULT_CARDS = [
+    {
+        id: "card-1",
+        name: "SUBE Personal",
+        number: "4521",
+        color: "#0066CC",
+        balance: 1245.5,
+        alertsEnabled: false,
+        transactions: [
+            { id: 1, type: "recharge", amount: 500, date: "2026-06-02 14:30", method: "Tarjeta" },
+            { id: 2, type: "trip", transport: "Subte Línea B", amount: 12.5, date: "2026-06-02 08:45", location: "Estación Flores" },
+            { id: 3, type: "trip", transport: "Colectivo 56", amount: 15, date: "2026-06-02 12:15", location: "Av. Rivadavia" },
+            { id: 4, type: "trip", transport: "Subte Línea D", amount: 12.5, date: "2026-06-01 18:30", location: "Estación Catalinas" },
+            { id: 5, type: "recharge", amount: 400, date: "2026-06-01 10:00", method: "Mercado Pago" },
+        ],
+    },
+    {
+        id: "card-2",
+        name: "SUBE Trabajo",
+        number: "8832",
+        color: "#00AA44",
+        balance: 380.25,
+        alertsEnabled: true,
+        transactions: [
+            { id: 1, type: "trip", transport: "Subte Línea D", amount: 12.5, date: "2026-06-02 07:20", location: "Catalinas" },
+            { id: 2, type: "trip", transport: "Colectivo 152", amount: 15, date: "2026-06-02 18:10", location: "Microcentro" },
+            { id: 3, type: "recharge", amount: 300, date: "2026-05-28 09:00", method: "Transferencia" },
+        ],
+    },
+    {
+        id: "card-3",
+        name: "SUBE Estudiante",
+        number: "1190",
+        color: "#FF9900",
+        balance: 95,
+        alertsEnabled: false,
+        transactions: [
+            { id: 1, type: "trip", transport: "Colectivo 39", amount: 15, date: "2026-06-02 16:40", location: "Flores" },
+            { id: 2, type: "adjust", amount: 95, date: "2026-06-01 12:00", note: "Saldo ingresado manualmente" },
+        ],
+    },
+];
+
+let appState = {
+    activeCardId: "card-1",
+    cards: [],
+    selectedAmount: 200,
+    darkMode: false,
+    currentFilter: "all",
+};
+
+// ==================== ICONOS SVG ====================
+const ICONS = {
+    settings: '<circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>',
+    bell: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+    "bell-off": '<path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M18.63 13A17.89 17.89 0 0 1 18 8"/><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"/><path d="M18 8a6 6 0 0 0-9.33-5"/><line x1="1" y1="1" x2="23" y2="23"/>',
+    "credit-card": '<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
+    "bar-chart": '<line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>',
+    x: '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+    bus: '<path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s-1-2-3-2-3 2-3 2H6s-1-2-3-2-3 2H2"/><path d="M8 18v2"/><path d="M16 18v2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',
+    train: '<rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/><path d="M8 15h0"/><path d="M16 15h0"/>',
+    subway: '<path d="M4 15h16"/><path d="M4 15l3-9h10l3 9"/><path d="m9 15 1.5 4"/><path d="m15 15-1.5 4"/><circle cx="8" cy="19" r="1"/><circle cx="16" cy="19" r="1"/>',
+    bank: '<line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/>',
+    smartphone: '<rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>',
+    check: '<polyline points="20 6 9 17 4 12"/>',
+    "check-circle": '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+    "x-circle": '<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>',
+    "alert-triangle": '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+    moon: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
+    sun: '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',
+    "map-pin": '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+    plus: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+    wallet: '<path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>',
+    "pen-line": '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+    "chevron-down": '<polyline points="6 9 12 15 18 9"/>',
+    layers: '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+    "sliders": '<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/>',
+};
+
+function icon(name, size = 20, className = "icon") {
+    const body = ICONS[name];
+    if (!body) return "";
+    return `<span class="${className}" style="width:${size}px;height:${size}px" aria-hidden="true"><svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${body}</svg></span>`;
+}
+
+function getTransportIconName(transport) {
+    if (!transport) return "bus";
+    const t = transport.toLowerCase();
+    if (t.includes("colectivo") || t.includes("ómnibus") || t.includes("omnibus")) return "bus";
+    if (t.includes("subte")) return "subway";
+    if (t.includes("tren")) return "train";
+    return "bus";
+}
+
+function getActiveCard() {
+    return appState.cards.find((c) => c.id === appState.activeCardId) || appState.cards[0];
+}
+
+function persistState() {
+    try {
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({
+                activeCardId: appState.activeCardId,
+                cards: appState.cards,
+                darkMode: appState.darkMode,
+            })
+        );
+    } catch (e) {
+        console.warn("No se pudo guardar", e);
+    }
+}
+
+function loadState() {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+            const saved = JSON.parse(raw);
+            if (saved.cards?.length) {
+                appState.cards = saved.cards;
+                appState.activeCardId = saved.activeCardId || saved.cards[0].id;
+                appState.darkMode = !!saved.darkMode;
+                return;
+            }
+        }
+        if (localStorage.getItem("darkMode") === "true") {
+            appState.darkMode = true;
+        }
+    } catch (e) {
+        console.warn("No se pudo cargar", e);
+    }
+    appState.cards = JSON.parse(JSON.stringify(DEFAULT_CARDS));
+    appState.activeCardId = "card-1";
+}
+
+function parseTransactionDate(dateStr) {
+    const isoMatch = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})(?:\s+(\d{1,2}):(\d{2}))?/);
+    if (isoMatch) {
+        const [, y, m, d, h = "0", min = "0"] = isoMatch;
+        return new Date(Number(y), Number(m) - 1, Number(d), Number(h), Number(min));
+    }
+    const parsed = new Date(dateStr);
+    return Number.isNaN(parsed.getTime()) ? new Date() : parsed;
+}
+
+function isSameCalendarDay(a, b) {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+}
+
+function isToday(dateStr) {
+    return isSameCalendarDay(parseTransactionDate(dateStr), new Date());
+}
+
+function isWithinDays(dateStr, days) {
+    const d = parseTransactionDate(dateStr);
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate() - days + 1);
+    return d >= start && d <= now;
+}
+
+function formatTransactionDate(date) {
+    const d = date instanceof Date ? date : parseTransactionDate(date);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const h = String(d.getHours()).padStart(2, "0");
+    const min = String(d.getMinutes()).padStart(2, "0");
+    return `${y}-${m}-${day} ${h}:${min}`;
+}
+
+function formatMoney(amount) {
+    return "$" + amount.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function maskCardNumber(num) {
+    const s = String(num).replace(/\D/g, "").slice(-4);
+    return "•••• " + (s || "0000");
+}
+
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function escapeJsString(str) {
+    return String(str).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+}
+
+function nextTxId(card) {
+    const max = card.transactions.reduce((m, t) => Math.max(m, t.id || 0), 0);
+    return max + 1;
+}
+
+function getLastRecharge(card) {
+    const recharges = card.transactions.filter((t) => t.type === "recharge" || t.type === "adjust");
+    if (!recharges.length) return null;
+    return recharges.sort((a, b) => parseTransactionDate(b.date) - parseTransactionDate(a.date))[0];
+}
+
+// ==================== INICIALIZACION ====================
+window.addEventListener("load", () => initApp());
+
+function initApp() {
+    loadState();
+    setupAlertToggle();
+    renderCardSwitcher();
+    refreshUI();
+    selectAmount(200, document.querySelectorAll(".amount-btn")[1]);
+    loadDarkMode();
+    document.getElementById("customAmount")?.addEventListener("input", () => {
+        document.querySelectorAll(".amount-btn").forEach((b) => b.classList.remove("selected"));
+    });
+}
+
+function refreshUI() {
+    updateBalance();
+    renderTrips();
+    renderHistory();
+    updateStats();
+    renderCardSwitcher();
+    updateAlertToggle();
+    persistState();
+}
+
+function renderCardSwitcher() {
+    const card = getActiveCard();
+    if (!card) return;
+    const nameEl = document.getElementById("activeCardName");
+    const numEl = document.getElementById("activeCardNumber");
+    const chip = document.getElementById("activeCardChip");
+    if (nameEl) nameEl.textContent = card.name;
+    if (numEl) numEl.textContent = maskCardNumber(card.number);
+    if (chip) chip.style.background = `linear-gradient(135deg, ${card.color}, ${card.color}99)`;
+}
+
+function setupAlertToggle() {
+    const toggle = document.getElementById("alertToggle");
+    if (!toggle || toggle.dataset.bound) return;
+    toggle.dataset.bound = "1";
+    toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const card = getActiveCard();
+        card.alertsEnabled = !card.alertsEnabled;
+        updateAlertToggle();
+        showToast(card.alertsEnabled ? "Alertas activadas" : "Alertas desactivadas", "success", card.alertsEnabled ? "bell" : "bell-off");
+        persistState();
+    });
+}
+
+function updateAlertToggle() {
+    const toggle = document.getElementById("alertToggle");
+    const card = getActiveCard();
+    if (!toggle || !card) return;
+    toggle.classList.toggle("active", card.alertsEnabled);
+    toggle.innerHTML = icon(card.alertsEnabled ? "bell" : "bell-off", 22);
+    toggle.setAttribute("aria-label", card.alertsEnabled ? "Desactivar alertas" : "Activar alertas");
+}
+
+function updateBalance() {
+    const card = getActiveCard();
+    if (!card) return;
+    const formatted = formatMoney(card.balance);
+    document.getElementById("balanceAmount").textContent = formatted;
+    const rechargeEl = document.getElementById("rechargeModalBalance");
+    if (rechargeEl) rechargeEl.textContent = formatted;
+
+    const last = getLastRecharge(card);
+    const lastEl = document.getElementById("lastRechargeText");
+    if (lastEl) {
+        if (!last) {
+            lastEl.textContent = "Sin cargas registradas";
+        } else {
+            const d = parseTransactionDate(last.date);
+            const label = isToday(last.date) ? "Hoy" : d.toLocaleDateString("es-AR", { day: "numeric", month: "short" });
+            const time = d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+            lastEl.textContent = `${label} a las ${time}`;
+        }
+    }
+
+    const statusEl = document.getElementById("balanceStatus");
+    if (statusEl) {
+        statusEl.innerHTML = `${icon("check", 14, "icon icon-inline")} Actualizado`;
+    }
+
+    if (card.balance < 100 && card.alertsEnabled) {
+        setTimeout(() => showToast("Tu saldo es menor a $100", "warning", "alert-triangle"), 500);
+    }
+}
+
+function updateStats() {
+    const card = getActiveCard();
+    if (!card) return;
+    const trips = card.transactions.filter((t) => t.type === "trip");
+    const todayTrips = trips.filter((t) => isToday(t.date));
+    const weekTrips = trips.filter((t) => isWithinDays(t.date, 7));
+    const todayTotal = todayTrips.reduce((s, t) => s + t.amount, 0);
+    const weekTotal = weekTrips.reduce((s, t) => s + t.amount, 0);
+
+    document.getElementById("todaySpent").textContent = formatMoney(todayTotal);
+    const countEl = document.getElementById("todayTripsCount");
+    if (countEl) countEl.textContent = todayTrips.length === 1 ? "1 viaje" : `${todayTrips.length} viajes`;
+
+    const weekVal = document.getElementById("weekSpent");
+    const weekSub = document.getElementById("weekTripsCount");
+    if (weekVal) weekVal.textContent = formatMoney(weekTotal);
+    if (weekSub) weekSub.textContent = weekTrips.length === 1 ? "1 viaje" : `${weekTrips.length} viajes`;
+}
+
+function renderTrips() {
+    const tripList = document.getElementById("tripList");
+    const card = getActiveCard();
+    const todayTrips = card.transactions
+        .filter((t) => t.type === "trip" && isToday(t.date))
+        .sort((a, b) => parseTransactionDate(b.date) - parseTransactionDate(a.date));
+
+    if (todayTrips.length === 0) {
+        tripList.innerHTML = '<p class="empty-state">No hay viajes hoy en esta tarjeta</p>';
+    } else {
+        tripList.innerHTML = todayTrips
+            .map(
+                (trip) => `
+            <div class="trip-item" onclick="showTripDetail('${escapeJsString(trip.transport)}')">
+                <div class="trip-icon">${icon(getTransportIconName(trip.transport), 26, "icon icon-trip")}</div>
+                <div class="trip-details">
+                    <div class="trip-name">${escapeHtml(trip.transport)}</div>
+                    <div class="trip-info">
+                        <span>${parseTransactionDate(trip.date).toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" })}</span>
+                        <span>${escapeHtml(trip.location)}</span>
+                    </div>
+                </div>
+                <div class="trip-amount">-${formatMoney(trip.amount)}</div>
+            </div>`
+            )
+            .join("");
+    }
+}
+
+function openRechargeModal() {
+    document.getElementById("rechargeModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+    updateBalance();
+}
+
+function closeRechargeModal() {
+    document.getElementById("rechargeModal").classList.remove("active");
+    document.body.style.overflow = "auto";
+}
+
+function selectAmount(amount, btn) {
+    appState.selectedAmount = amount;
+    document.getElementById("customAmount").value = "";
+    document.querySelectorAll(".amount-btn").forEach((b) => b.classList.remove("selected"));
+    if (btn) btn.classList.add("selected");
+}
+
+function confirmRecharge() {
+    const customAmount = parseFloat(document.getElementById("customAmount").value);
+    const amount = customAmount || appState.selectedAmount;
+    const card = getActiveCard();
+
+    if (isNaN(amount) || amount < 50 || amount > 5000) {
+        showToast("Monto debe estar entre $50 y $5.000", "error", "x-circle");
+        return;
+    }
+
+    const btn = event.target;
+    const btnText = btn.textContent;
+    btn.textContent = "Procesando...";
+    btn.disabled = true;
+
+    setTimeout(() => {
+        card.balance += amount;
+        const method =
+            document.querySelector('input[name="payment"]:checked')?.value === "transfer"
+                ? "Transferencia"
+                : document.querySelector('input[name="payment"]:checked')?.value === "mercadopago"
+                  ? "Mercado Pago"
+                  : "Tarjeta";
+        card.transactions.unshift({
+            id: nextTxId(card),
+            type: "recharge",
+            amount,
+            date: formatTransactionDate(new Date()),
+            method,
+        });
+        refreshUI();
+        showToast(`Recarga de ${formatMoney(amount)} exitosa. Nuevo saldo: ${formatMoney(card.balance)}`, "success", "check-circle");
+        btn.textContent = btnText;
+        btn.disabled = false;
+        closeRechargeModal();
+    }, 1200);
+}
+
+function openAdjustBalanceModal() {
+    const card = getActiveCard();
+    document.getElementById("adjustBalanceInput").value = card.balance;
+    document.getElementById("adjustBalanceNote").value = "";
+    document.getElementById("adjustBalanceModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function closeAdjustBalanceModal() {
+    document.getElementById("adjustBalanceModal").classList.remove("active");
+    document.body.style.overflow = "auto";
+}
+
+function confirmAdjustBalance() {
+    const card = getActiveCard();
+    const newBalance = parseFloat(document.getElementById("adjustBalanceInput").value);
+    const note = document.getElementById("adjustBalanceNote").value.trim() || "Ajuste manual de saldo";
+
+    if (isNaN(newBalance) || newBalance < 0 || newBalance > 99999) {
+        showToast("Ingresá un saldo válido (0 - 99.999)", "error", "x-circle");
+        return;
+    }
+
+    const diff = newBalance - card.balance;
+    card.balance = newBalance;
+    card.transactions.unshift({
+        id: nextTxId(card),
+        type: "adjust",
+        amount: Math.abs(diff),
+        date: formatTransactionDate(new Date()),
+        note,
+        direction: diff >= 0 ? "in" : "out",
+    });
+    refreshUI();
+    closeAdjustBalanceModal();
+    showToast(`Saldo actualizado a ${formatMoney(newBalance)}`, "success", "wallet");
+}
+
+function openHistory() {
+    document.getElementById("historyModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+    renderHistory();
+}
+
+function closeHistoryModal() {
+    document.getElementById("historyModal").classList.remove("active");
+    document.body.style.overflow = "auto";
+}
+
+function renderHistory() {
+    const container = document.getElementById("historyContainer");
+    const card = getActiveCard();
+    let filtered = card.transactions;
+
+    if (appState.currentFilter === "viajes") filtered = filtered.filter((t) => t.type === "trip");
+    else if (appState.currentFilter === "recargas") filtered = filtered.filter((t) => t.type === "recharge" || t.type === "adjust");
+
+    if (!filtered.length) {
+        container.innerHTML = '<p class="empty-state">Sin movimientos</p>';
+        return;
+    }
+
+    container.innerHTML = filtered
+        .map((trans) => {
+            const isRecharge = trans.type === "recharge";
+            const isAdjust = trans.type === "adjust";
+            let iconName = "credit-card";
+            let title = "";
+            let subtitle = "";
+            let amountClass = "charge";
+            let amountText = "";
+
+            if (isRecharge) {
+                iconName = "credit-card";
+                title = `Recarga · ${trans.method}`;
+                subtitle = trans.method;
+                amountClass = "credit";
+                amountText = `+${formatMoney(trans.amount)}`;
+            } else if (isAdjust) {
+                iconName = "pen-line";
+                title = trans.direction === "out" ? "Ajuste de saldo" : "Saldo ingresado";
+                subtitle = trans.note || "Ajuste manual";
+                amountClass = trans.direction === "out" ? "charge" : "credit";
+                amountText = trans.direction === "out" ? `-${formatMoney(trans.amount)}` : `+${formatMoney(trans.amount)}`;
+            } else {
+                iconName = getTransportIconName(trans.transport);
+                title = trans.transport;
+                subtitle = trans.location;
+                amountText = `-${formatMoney(trans.amount)}`;
+            }
+
+            return `
+                <div class="history-item ${isRecharge || (isAdjust && trans.direction !== "out") ? "recharge" : ""}">
+                    <div class="history-date">${escapeHtml(trans.date)}</div>
+                    <div class="history-details">
+                        <div class="history-left">
+                            <div class="history-icon">${icon(iconName, 20, "icon")}</div>
+                            <div class="history-text">
+                                <div class="history-type">${escapeHtml(title)}</div>
+                                <div class="history-time">${escapeHtml(subtitle)}</div>
+                            </div>
+                        </div>
+                        <div class="history-amount ${amountClass}">${amountText}</div>
+                    </div>
+                </div>`;
+        })
+        .join("");
+}
+
+function filterHistory(type, tabEl) {
+    appState.currentFilter = type;
+    document.querySelectorAll(".filter-tab").forEach((tab) => tab.classList.remove("active"));
+    if (tabEl) tabEl.classList.add("active");
+    renderHistory();
+}
+
+function openCardsModal() {
+    renderCardsList();
+    document.getElementById("cardsModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function closeCardsModal() {
+    document.getElementById("cardsModal").classList.remove("active");
+    document.body.style.overflow = "auto";
+}
+
+function renderCardsList() {
+    const list = document.getElementById("cardsList");
+    list.innerHTML = appState.cards
+        .map((c) => {
+            const active = c.id === appState.activeCardId;
+            return `
+            <button type="button" class="card-list-item ${active ? "active" : ""}" onclick="switchCard('${c.id}')">
+                <div class="card-list-chip" style="background:linear-gradient(135deg,${c.color},${c.color}99)"></div>
+                <div class="card-list-info">
+                    <div class="card-list-name">${escapeHtml(c.name)}</div>
+                    <div class="card-list-meta">${maskCardNumber(c.number)} · ${formatMoney(c.balance)}</div>
+                </div>
+                ${active ? icon("check", 20, "icon icon-check") : ""}
+            </button>`;
+        })
+        .join("");
+}
+
+function switchCard(cardId) {
+    if (!appState.cards.some((c) => c.id === cardId)) return;
+    appState.activeCardId = cardId;
+    appState.currentFilter = "all";
+    document.querySelectorAll(".filter-tab").forEach((tab, i) => tab.classList.toggle("active", i === 0));
+    refreshUI();
+    closeCardsModal();
+    const card = getActiveCard();
+    showToast(`Tarjeta: ${card.name}`, "info", "layers");
+}
+
+function openAddCardForm() {
+    document.getElementById("newCardName").value = "";
+    document.getElementById("newCardNumber").value = "";
+    document.getElementById("newCardBalance").value = "0";
+    document.getElementById("addCardForm").classList.remove("hidden");
+}
+
+function confirmAddCard() {
+    const name = document.getElementById("newCardName").value.trim() || "Nueva SUBE";
+    const number = document.getElementById("newCardNumber").value.trim() || String(Math.floor(1000 + Math.random() * 9000));
+    const balance = parseFloat(document.getElementById("newCardBalance").value) || 0;
+    const colors = ["#0066CC", "#00AA44", "#FF9900", "#8B5CF6", "#DD3333"];
+    const id = "card-" + Date.now();
+    const card = {
+        id,
+        name,
+        number,
+        color: colors[appState.cards.length % colors.length],
+        balance,
+        alertsEnabled: false,
+        transactions: balance > 0 ? [{ id: 1, type: "adjust", amount: balance, date: formatTransactionDate(new Date()), note: "Saldo inicial", direction: "in" }] : [],
+    };
+    appState.cards.push(card);
+    appState.activeCardId = id;
+    document.getElementById("addCardForm").classList.add("hidden");
+    refreshUI();
+    renderCardsList();
+    showToast(`Tarjeta "${name}" agregada`, "success", "plus");
+    persistState();
+}
+
+function openSettings() {
+    document.getElementById("settingsModal").classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function closeSettings() {
+    document.getElementById("settingsModal").classList.remove("active");
+    document.body.style.overflow = "auto";
+}
+
+function toggleDarkMode() {
+    appState.darkMode = !appState.darkMode;
+    document.body.classList.toggle("dark-mode", appState.darkMode);
+    document.getElementById("darkModeToggle").classList.toggle("active", appState.darkMode);
+    persistState();
+    showToast(appState.darkMode ? "Modo oscuro activado" : "Modo claro activado", "success", appState.darkMode ? "moon" : "sun");
+}
+
+function loadDarkMode() {
+    if (appState.darkMode) {
+        document.body.classList.add("dark-mode");
+        document.getElementById("darkModeToggle")?.classList.add("active");
+    }
+}
+
+function showToast(message, variant = "success", iconName = "check-circle") {
+    const notif = document.getElementById("successNotif");
+    notif.className = "success-notification show toast-" + variant;
+    notif.innerHTML = `${icon(iconName, 18, "icon icon-toast")}<span>${escapeHtml(message)}</span>`;
+    void notif.offsetWidth;
+    clearTimeout(notif._timer);
+    notif._timer = setTimeout(() => notif.classList.remove("show"), 3200);
+}
+
+function showTripDetail(trip) {
+    showToast(trip, "info", "map-pin");
+}
+
+function closeAllModals() {
+    closeRechargeModal();
+    closeHistoryModal();
+    closeSettings();
+    closeCardsModal();
+    closeAdjustBalanceModal();
+}
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAllModals();
+});
+
+["rechargeModal", "historyModal", "settingsModal", "cardsModal", "adjustBalanceModal"].forEach((id) => {
+    document.getElementById(id)?.addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) {
+            if (id === "rechargeModal") closeRechargeModal();
+            else if (id === "historyModal") closeHistoryModal();
+            else if (id === "settingsModal") closeSettings();
+            else if (id === "cardsModal") closeCardsModal();
+            else closeAdjustBalanceModal();
+        }
+    });
+});
+
+
